@@ -9,7 +9,7 @@ load_dotenv()
 VT_API_KEY = os.getenv("VT_API_KEY")
 
 if not VT_API_KEY:
-    raise ValueError("[-] VT_API_KEY not found. Please check your .env file.")
+    raise ValueError("VT_API_KEY not found. Please check your .env file.")
 
 HEADERS = {
     "accept": "application/json",
@@ -48,14 +48,14 @@ def query_virustotal(ioc, ioc_type):
     elif response.status_code == 404:
         return {"status": "not_found", "error": "No data found on VirusTotal."}
     elif response.status_code == 429:
-        print("  [!] Rate limit hit! Sleeping for 60 seconds...")
+        print("Rate limit hit! Sleeping for 60 seconds...")
         time.sleep(60)
         return query_virustotal(ioc, ioc_type) # Retry
     else:
         return {"status": "error", "error": f"HTTP {response.status_code}"}
 
 if __name__ == "__main__":
-    print("[*] Starting Phase 4: Contextual Enrichment Pipeline...")
+    print("Starting Phase 4: Contextual Enrichment Pipeline...")
     articles = load_extracted_data()
     
     for article in articles:
@@ -82,4 +82,4 @@ if __name__ == "__main__":
     with open(out_file, 'w', encoding='utf-8') as f:
         json.dump(articles, f, indent=4)
         
-    print(f"\n[+] Phase 4 Complete. Saved enriched IoCs to {out_file}")
+    print(f"\nPhase 4 Complete. Saved enriched IoCs to {out_file}")

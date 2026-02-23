@@ -34,13 +34,13 @@ def extract_iocs(text):
     return response['message']['content']
 
 if __name__ == "__main__":
-    print("[*] Starting Phase 3: AI Extraction Pipeline...")
+    print("Starting Phase 3: AI Extraction Pipeline...")
     articles = load_raw_data()
     
     extracted_data = []
     
     for article in articles:
-        print(f"[*] Analyzing: {article['title']}")
+        print(f"Analyzing: {article['title']}")
         if article['summary']:
             try:
                 # Pass the article summary to the LLM
@@ -54,11 +54,11 @@ if __name__ == "__main__":
                     "link": article['link'],
                     "extracted_intelligence": iocs
                 })
-                print("  [+] Extraction successful.")
+                print("Extraction successful.")
             except Exception as e:
-                print(f"  [-] Failed to parse LLM output. Error: {e}")
+                print(f"Failed to parse LLM output. Error: {e}")
         else:
-            print("  [-] No summary available to analyze.")
+            print("No summary available to analyze.")
             
     # Save the final structured data
     out_dir = os.path.join(os.path.dirname(__file__), "..", "data", "output")
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     with open(out_file, 'w', encoding='utf-8') as f:
         json.dump(extracted_data, f, indent=4)
         
-    print(f"\n[+] Phase 3 Complete. Saved structured IoCs to {out_file}")
+    print(f"\nPhase 3 Complete. Saved structured IoCs to {out_file}")

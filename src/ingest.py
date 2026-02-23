@@ -6,11 +6,11 @@ from datetime import datetime
 
 def ingest_rss(feed_url, max_articles=3):
     """STREAM 1: Fetches and parses an RSS feed."""
-    print(f"[*] Fetching RSS feed: {feed_url}")
+    print(f"Fetching RSS feed: {feed_url}")
     feed = feedparser.parse(feed_url)
     
     if feed.bozo:
-        print("  [-] Error parsing feed. It might be malformed.")
+        print("Error parsing feed. It might be malformed.")
         return []
 
     articles = []
@@ -26,12 +26,12 @@ def ingest_rss(feed_url, max_articles=3):
 
 def ingest_local_files(directory_path):
     """STREAM 2: Reads plain text files (e.g., phishing emails, logs) from a drop folder."""
-    print(f"[*] Checking local drop folder: {directory_path}")
+    print(f"Checking local drop folder: {directory_path}")
     
     # Create the folder if it doesn't exist
     if not os.path.exists(directory_path):
         os.makedirs(directory_path, exist_ok=True)
-        print("  [i] Folder created. Drop .txt files here to analyze them.")
+        print("Folder created. Drop .txt files here to analyze them.")
         return []
 
     articles = []
@@ -39,7 +39,7 @@ def ingest_local_files(directory_path):
     search_pattern = os.path.join(directory_path, "*.txt")
     for filepath in glob.glob(search_pattern):
         filename = os.path.basename(filepath)
-        print(f"  [+] Reading local file: {filename}")
+        print(f"Reading local file: {filename}")
         
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -54,7 +54,7 @@ def ingest_local_files(directory_path):
                 "summary": content 
             })
         except Exception as e:
-            print(f"  [-] Error reading {filename}: {e}")
+            print(f"Error reading {filename}: {e}")
             
     return articles
 
@@ -67,7 +67,7 @@ def save_raw_data(all_data, filename="latest_intel.json"):
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(all_data, f, indent=4)
         
-    print(f"\n[+] Successfully saved {len(all_data)} total items to {filepath}")
+    print(f"\nSuccessfully saved {len(all_data)} total items to {filepath}")
 
 if __name__ == "__main__":
     print("Starting Phase 2: Multi-Stream Data Ingestion...\n")
@@ -88,6 +88,6 @@ if __name__ == "__main__":
     # --- AGGREGATE AND SAVE ---
     if aggregated_data:
         save_raw_data(aggregated_data)
-        print("[*] Phase 2 Complete. Multi-stream data is ready for the LLM.")
+        print("Phase 2 Complete. Multi-stream data is ready for the LLM.")
     else:
-        print("[-] No data ingested from any stream.")
+        print("No data ingested from any stream.")

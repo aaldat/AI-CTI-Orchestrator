@@ -4,9 +4,7 @@ import os
 
 def run_script(script_name):
     """Runs a Python script and checks for errors."""
-    print(f"\n{'='*60}")
-    print(f"🚀 EXECUTING: {script_name}")
-    print(f"{'='*60}")
+    print(f"EXECUTING: {script_name}")
     
     # Ensure we run the script from the correct directory relative to main.py
     script_path = os.path.join(os.path.dirname(__file__), script_name)
@@ -15,7 +13,7 @@ def run_script(script_name):
     result = subprocess.run([sys.executable, script_path])
     
     if result.returncode != 0:
-        print(f"\n[-] Fatal Error: {script_name} failed. Halting pipeline.")
+        print(f"\nFatal Error: {script_name} failed. Halting pipeline.")
         sys.exit(1)
 
 if __name__ == "__main__":
@@ -35,7 +33,7 @@ if __name__ == "__main__":
     for script in pipeline:
         run_script(script)
         
-    print("\n[+] ========================================================")
-    print("[+] 🎯 PIPELINE COMPLETE! ")
-    print("[+] Final STIX 2.1 Bundle is ready in: data/output/stix_bundle.json")
-    print("[+] ========================================================\n")
+    print("\n========================================================")
+    print("PIPELINE COMPLETE! ")
+    print("Final STIX 2.1 Bundle is ready in: data/output/stix_bundle.json")
+    print("========================================================\n")

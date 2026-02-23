@@ -37,7 +37,7 @@ def create_stix_bundle(articles):
                 
                 # THE SAFETY NET: Skip if VirusTotal said this format was invalid
                 if vt_data.get("status") == "invalid":
-                    print(f"  [-] Dropping AI Hallucination: {item}")
+                    print(f"Dropping AI Hallucination: {item}")
                     continue
                     
                 # Create the strict STIX query pattern
@@ -79,14 +79,14 @@ def create_stix_bundle(articles):
             stix_objects.extend(article_objects)
 
     if not stix_objects:
-        print("[-] No valid intelligence found to export.")
+        print("No valid intelligence found to export.")
         return None
 
     # 4. Bundle everything together
     return Bundle(objects=stix_objects)
 
 if __name__ == "__main__":
-    print("[*] Starting Phase 5: STIX 2.1 Export Pipeline...")
+    print("Starting Phase 5: STIX 2.1 Export Pipeline...")
     articles = load_enriched_data()
     
     bundle = create_stix_bundle(articles)
@@ -99,4 +99,4 @@ if __name__ == "__main__":
         with open(out_file, 'w', encoding='utf-8') as f:
             f.write(bundle.serialize(pretty=True))
             
-        print(f"\n[+] Phase 5 Complete. Saved STIX 2.1 Bundle to {out_file}")
+        print(f"\nPhase 5 Complete. Saved STIX 2.1 Bundle to {out_file}")
